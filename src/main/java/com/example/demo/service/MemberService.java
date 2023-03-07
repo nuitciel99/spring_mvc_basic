@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service // 비즈니스 로직을 처리
 // 만약에 DB연동이 있다면
@@ -19,6 +20,14 @@ public class MemberService {
 
     public void create(Member member){
         memberRepository.save(member);
+    }
+
+    public List<Member> findAll(){
+        return memberRepository.findAll();
+    }
+
+    public Member findOne(Long id){
+        return memberRepository.findById(id).orElse(null);
     }
 
 }
