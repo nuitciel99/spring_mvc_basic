@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,14 +42,14 @@ public class MemberController {
     }
 
     @GetMapping("/members/list")
-    public String membersList(Model model){
+    public String membersList(Model model) throws SQLException {
         model.addAttribute("members", memberService.findAll());
         return "members/memberList";
     }
 
 
     @PostMapping("/members/new")
-    public String createData(@RequestParam(value = "myName")String name){
+    public String createData(@RequestParam(value = "myName")String name) throws SQLException {
         Member member = new Member();
         member.setName(name);
         memberService.create(member);
@@ -57,8 +58,20 @@ public class MemberController {
     }
 
     @GetMapping("/member/detail")
-    public String memberDetail(@RequestParam(value = "id")Long my_id,Model model){
+    public String memberDetail(@RequestParam(value = "id")Long my_id,Model model) throws SQLException {
         model.addAttribute("member", memberService.findOne(my_id));
         return "members/memberDetail";
     }
+
+//    @GetMapping("/member/findbyname")
+//    @ResponseBody
+//    public List<Member> memberFindByName(@RequestParam(value = "name")String name){
+//        return memberService.findByName(name);
+//    }
+
+//    @GetMapping("/member/findByIdAndName")
+//    @ResponseBody
+//    public Member findByIdAndName(@RequestParam(value = "name")String name, @RequestParam(value = "id")Long id){
+//        return memberService.findByIdAndName(id, name);
+//    }
 }
